@@ -3,6 +3,14 @@
 import { Playfair_Display, Space_Grotesk, Crimson_Pro } from "next/font/google";
 import clsx from "clsx";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+const HERO_VIDEOS = [
+  "/hero/citynight.mp4",
+  "/hero/hills.mp4",
+  "/hero/sunset.mp4",
+  "/hero/waterfall.mp4",
+];
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -20,6 +28,14 @@ const crimsonPro = Crimson_Pro({
 });
 
 const Home = () => {
+  const [videoSrc, setVideoSrc] = useState(HERO_VIDEOS[0]);
+
+  useEffect(() => {
+    const randomVideo =
+      HERO_VIDEOS[Math.floor(Math.random() * HERO_VIDEOS.length)];
+    setVideoSrc(randomVideo);
+  }, []);
+
   return (
     <main className="min-h-screen flex flex-col">
       <div className="relative flex-1">
@@ -30,7 +46,7 @@ const Home = () => {
           loop
           playsInline
         >
-          <source src="/sunset.mp4" type="video/mp4" />
+          <source src={videoSrc} type="video/mp4" />
         </video>
 
         {/* Top Left Text */}
@@ -86,11 +102,34 @@ const Home = () => {
         </div>
 
         {/* 3D Logo */}
-        <div className="relative w-12 h-12 rotate-45 hover:rotate-[135deg] transition-transform duration-700">
-          <div className="absolute inset-0 bg-white/10 transform-gpu preserve-3d cube-front" />
-          <div className="absolute inset-0 bg-white/5 transform-gpu preserve-3d cube-right" />
-          <div className="absolute inset-0 bg-white/20 transform-gpu preserve-3d cube-top" />
-        </div>
+        <svg
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          className="opacity-80 hover:opacity-100 transition-opacity"
+        >
+          {/* Front face */}
+          <path
+            d="M3 17V7L12 3L21 7V17L12 21L3 17Z"
+            fill="none"
+            stroke="white"
+            strokeWidth="1.5"
+          />
+          {/* Right edge */}
+          <path
+            d="M12 21V11M21 17L12 11"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+          {/* Inner detail */}
+          <path
+            d="M12 11L3 7"
+            stroke="white"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+          />
+        </svg>
 
         <motion.button
           className={`px-6 py-2.5 border border-white/20 rounded-lg ${spaceGrotesk.className} relative overflow-hidden group`}
