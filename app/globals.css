@@ -5,3 +5,19 @@
 body {
   @apply bg-black text-white;
 }
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.cube-front {
+  transform: translateZ(12px);
+}
+
+.cube-right {
+  transform: rotateY(90deg) translateZ(12px);
+}
+
+.cube-top {
+  transform: rotateX(-90deg) translateZ(12px);
+}
