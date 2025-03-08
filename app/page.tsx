@@ -28,18 +28,27 @@ const crimsonPro = Crimson_Pro({
 });
 
 const Home = () => {
-  const [videoSrc, setVideoSrc] = useState(HERO_VIDEOS[0]);
+  const [videoSrc, setVideoSrc] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const randomVideo =
-      HERO_VIDEOS[Math.floor(Math.random() * HERO_VIDEOS.length)];
-    setVideoSrc(randomVideo);
+    // Ensure we're running on client side
+    if (typeof window !== "undefined") {
+      const randomIndex = Math.floor(Math.random() * HERO_VIDEOS.length);
+      setVideoSrc(HERO_VIDEOS[randomIndex]);
+      setIsLoading(false);
+    }
   }, []);
+
+  if (isLoading || !videoSrc) {
+    return <div className="min-h-screen bg-black" />;
+  }
 
   return (
     <main className="min-h-screen flex flex-col">
       <div className="relative flex-1">
         <video
+          key={videoSrc}
           className="absolute inset-0 w-full h-full object-cover rounded-[48px] p-8"
           autoPlay
           muted
